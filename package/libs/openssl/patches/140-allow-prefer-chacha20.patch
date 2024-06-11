@@ -71,7 +71,7 @@ Signed-off-by: Eneas U de Queiroz <cote2004-github@yahoo.com>
  }
 --- a/include/openssl/ssl.h.in
 +++ b/include/openssl/ssl.h.in
-@@ -198,9 +198,15 @@ extern "C" {
+@@ -199,9 +199,15 @@ extern "C" {
   * DEPRECATED IN 3.0.0, in favor of OSSL_default_ciphersuites()
   * Update both macro and function simultaneously
   */
