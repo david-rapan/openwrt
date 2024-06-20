@@ -1,0 +1,25 @@
+From: https://forum.openwrt.org/t/daemon-err-hostapd-nl80211-kernel-reports-key-addition-failed-is-this-a-problem/100370/41
+
+Used to remove FT key addition failed error on Archer C7 v2
+
+Index: backports-5.15.58-1/net/mac80211/cfg.c
+===================================================================
+--- backports-5.15.58-1.orig/net/mac80211/cfg.c
++++ backports-5.15.58-1/net/mac80211/cfg.c
+@@ -466,11 +466,15 @@ static int ieee80211_add_key(struct wiph
+                 * TODO: accept the key if we have a station entry and
+                 *       add it to the device after the station.
+                 */
+-               if (!sta || !test_sta_flag(sta, WLAN_STA_ASSOC)) {
++               if (!sta) {
++                       sdata_info(sdata, "mwv1 - no sta\n");
+                        ieee80211_key_free_unused(key);
+                        err = -ENOENT;
+                        goto out_unlock;
+                }
++               if (!test_sta_flag(sta, WLAN_STA_ASSOC)) {
++                       sdata_info(sdata, "mwv2 - no sta assoc\n");
++               }
+        }
+
+        switch (sdata->vif.type) {
