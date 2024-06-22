@@ -1,6 +1,6 @@
 From: https://forum.openwrt.org/t/daemon-err-hostapd-nl80211-kernel-reports-key-addition-failed-is-this-a-problem/100370/41
 
-Used to remove FT key addition failed error on Archer C7 v2
+FT key addition failed
 
 Index: backports-6.6.15/net/mac80211/cfg.c
 ===================================================================
@@ -19,6 +19,9 @@ Index: backports-6.6.15/net/mac80211/cfg.c
  		}
 +		if (!test_sta_flag(sta, WLAN_STA_ASSOC)) {
 +			sdata_info(sdata, "mwv2 - no sta assoc\n");
++			ieee80211_key_free_unused(key);
++			err = -ENOENT;
++			goto out_unlock;
 +		}
  	}
 
